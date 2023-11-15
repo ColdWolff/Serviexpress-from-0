@@ -29,8 +29,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#"><b class="color_nav">Inicio</b><span
-                                class="sr-only"></span></a>
+                        <a class="nav-link" href="#"><b class="color_nav">Inicio</b><span class="sr-only"></span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><b class="color_nav">Trabajos Recientes</b></a>
@@ -41,31 +40,41 @@
                             <b class="color_nav">Trabajos</b>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#"><b >Categoria</b></a>
-                            <a class="dropdown-item" href="#"><b >Mecanico</b></a>
+                            <a class="dropdown-item" href="#"><b>Categoria</b></a>
+                            <a class="dropdown-item" href="#"><b>Mecanico</b></a>
                         </div>
                     </li>
                     <li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <b class="color_nav"> User
-                            </b>
-                        </a>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <b class="color_nav"> User
+                                </b>
+                            </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#"><b>Perfil</b></a>
                             <a class="dropdown-item" href="#"><b>Agregar mantencion</b></a>
-                            <a class="dropdown-item" href="#"><b>Cerrar Sesion</b></a>
+                            <a class="dropdown-item" href="/logout"><b>Cerrar Sesion</b></a>
                         </div>
+                        {% else %}
+                    <li>
+                        <a class="btn" href="/signin"><b>Acceder</b></a>
+                    </li>
+                    <li>
+                        <a class="btn" href="/signup"><b>Registrarse</b></a>
+                    </li>
+                    {% endif %}
                     </li>
                 </ul>
             </div>
         </nav>
     </header>
-     <br>
-     <br>
-     <br>
-     <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
     {% block content %}
     {% endblock %}
 
@@ -110,4 +119,5 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 </body>
+
 </html>

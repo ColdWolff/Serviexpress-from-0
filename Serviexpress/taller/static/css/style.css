@@ -47,6 +47,7 @@ body{
 
 .color_nav{
     color: white;
+    font-weight: 500;
 }
 
 .dropdown a:hover{
