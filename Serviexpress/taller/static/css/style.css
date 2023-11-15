@@ -1,0 +1,147 @@
+*{
+    margin: 0%;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Cormorant Garamond', serif;
+}
+
+#navbarSupportedContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+.my_navbar {
+    background-color: rgba(237, 116, 41, 0.8) !important;
+
+}
+
+.my_navbar div, .my_navbar ul {
+    background-color: transparent !important; 
+    text-align: center;
+}
+
+.navbar-light .navbar-brand {
+    width: 40%;
+    padding-left: 10px;
+}
+
+.color_nav{
+    color: white;
+}
+
+.dropdown a:hover{
+    background-color: rgba(255, 138, 65);
+}
+    .dropdown-item:hover{
+        color:white
+    }
+
+.form-control{
+    align-items: center;
+}
+
+.btn{
+    padding-top: 5px;
+    text-align: center;
+    margin-right: 10px;
+    margin-left: 10px;
+    background: #d8571e;
+    color: #f7d4b1;
+}
+    .btn:hover{
+        background:#f7d4b1;
+        color: #e66f29;
+    }
+
+.cont_sec1 {
+    padding: 5%;
+}
+
+    .cont_sec1_link {
+        padding: 5%;
+    }
+
+        .cont_sec1_link a {
+            width: 200px;
+        }
+
+            .cont_sec1 hr {
+                border-top: 1px solid rgba(1, 1, 1, 0.9);
+            }
+
+.cont_banner_sec3 {
+    height: 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(../img/fondo2.jpg);
+    position: relative;
+    padding: 10%;
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+    .cont_banner_sec3 .row {
+        background-color: rgba(1, 1, 1, 0.7);
+        color: white;
+        padding-top: 2%;
+        padding-bottom: 0%;
+    }
+
+.color_cont{
+    color: rgba(190, 4, 4);
+}
+.cont_img {
+    padding: 8%;
+}
+
+.cont_footer {
+    background-color: rgb(237, 116, 41);
+    padding: 10%;
+    padding-bottom: 0;
+    padding-top: 30px;
+    color: white;
+    margin-top: 20px;
+    text-align: left;
+}
+    .cont_footer a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding-bottom: 0;
+        text-align: left;
+    }
+        .cont_img_footer {
+            max-width: 20%;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+
+.color_car {
+    background:rgba(1, 1, 1, 0.7) ;
+    color: white;
+    text-align: center;
+    padding: 1%;
+    margin-left: 25%;
+    width: 300px;
+}

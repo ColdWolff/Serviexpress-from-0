@@ -1,12 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
+from django.contrib.auth import login
 
 def home(request):
     return render(request, "home.html")
 
+def hnf(request):
+    return render(request, "hnf.html")
 
 def signup(request):
     if request.method == "GET":
@@ -20,8 +22,8 @@ def signup(request):
                     username=request.POST["username"],
                     password=request.POST["password1"],
                 )
-                print("Usuario creado exitosamente")
-                return HttpResponse("Usuario creado exitosamente")
+                login(request,user)
+                return redirect('index')
             except:
                 return render(
                     request,
@@ -33,3 +35,6 @@ def signup(request):
             "signup.html",
             {"form": UserCreationForm, "Error": "Las contraseñas no son iguales"},
         )
+
+def index(request):
+    return render(request, "index.html")

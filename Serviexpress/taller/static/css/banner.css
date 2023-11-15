@@ -1,0 +1,70 @@
+.banner {
+    height: 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(../img/fondo.webp);
+}
+.sombra {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    padding: 20;
+    width: 80%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    margin: auto;
+}
+.sombra hr {
+    border-top: 1px solid white;
+}
+.sombra h1 {
+    font-size: 6vw;
+    margin-bottom: 10px;
+}
+.sombra p {
+    font-size: 4vw;
+    margin-bottom: 10px;
+}
+.cont_banner_link {
+    margin: 15;
+    position: relative;
+}
+.cont_banner_link a {
+    position: relative;
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    border: 1px solid white;
+    padding: 1px;
+    margin-bottom: 5px;
+    width: 150px;
+}
+.cont_banner_link a:hover {
+    background-color: white;
+    color: black;
+}
+.banner_link {
+    opacity: 0;
+    animation: keyframes_aparecer_arriba 1s;
+    -webkit-animation: keyframes_aparecer_arriba 1s;
+    animation-fill-mode: forwards;
+}
+.delay_02 {
+    animation-delay: 0.2s;
+}
+.delay_05 {
+    animation-delay: 0.5s;
+}
+.delay_07 {
+    animation-delay: 0.7s;
+}
+.navbar-light .navbar-brand {
+    width: 50%;
+    padding-left: 10px;
+}

@@ -1,0 +1,18 @@
+@keyframes keyframes_aparecer_arriba{
+    from{
+        opacity: 0;
+        top: 0px;
+    }to{
+        opacity: 1;
+        top: 0;
+    }
+}
+@-webkit-keyframes keyframes_aparecer_arriba{
+    from{
+        opacity: 0;
+        top: 0px;
+    }to{
+        opacity: 1;
+        top: 0;
+    }
+}
