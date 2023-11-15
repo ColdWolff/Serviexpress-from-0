@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 
 
 def home(request):
@@ -24,11 +24,7 @@ def signup(request):
                 login(request, user)
                 return redirect("index")
             except:
-                return render(
-                    request,
-                    "signup.html",
-                    {"Error": "El usuario ya existe"}
-                )
+                return render(request, "signup.html", {"Error": "El usuario ya existe"})
         return render(
             request,
             "signup.html",
@@ -41,19 +37,20 @@ def signin(request):
         print("Desplegando formulario")
         return render(request, "signin.html")
     else:
-        try:
-            user = User.objects.create_user(
-                username=request.POST["username"],
-                password=request.POST["password1"],
-            )
-            login(request, user)
-            return redirect("index")
-        except:
+        user = authenticate(
+            request,
+            username=request.POST["username"],
+            password=request.POST["password"],
+        )
+        if user is None:
             return render(
                 request,
-                "signup.html",
-                {"form": UserCreationForm, "Error": "El usuario ya existe"},
+                "signin.html",
+                {"Error": "Usuario o contraseña incorrectos"},
             )
+        else:
+            login(request, user)
+            return redirect("index")
 
 
 def index(request):
