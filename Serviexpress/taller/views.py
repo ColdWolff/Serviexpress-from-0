@@ -3,11 +3,22 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-from .forms import CitaForm
-from .models import Cliente
+from .forms import CitaForm, ServicioForm
+from .models import (
+    Cliente,
+    Empleado,
+    Proveedor,
+    FaBo,
+    Cita,
+    Vehiculo,
+    Servicio,
+    Pedido,
+    Producto,
+)
 
 def home(request):
     return render(request, "home.html")
+
 
 def signup(request):
     if request.method == "GET":
@@ -51,21 +62,34 @@ def signin(request):
             login(request, user)
             return redirect("index")
 
+
 def signout(request):
     logout(request)
     return redirect("home")
 
+
 def index(request):
     return render(request, "index.html")
 
-def create_cita(request):
-    if request.method == 'GET':
-        return render(request, 'create_cita.html',
-                     {'form': CitaForm})
-    else:
-        form = CitaForm(request.POST)
-        new_cita = form.save(commit=False)
-        #new_cita.cliente = request.user
-        print(new_cita)
-        return redirect('home')
+# L (Servicio)
+def servicios(request):
+    servicios = Servicio.objects.all()
+    print(servicios)
+    return render(request, "servicios.html", {"servicios": servicios})
 
+
+# C (Servicio)
+def create_servicio(request):
+    if request.method == "GET":
+        return render(request, "create_servicio.html", {"form": ServicioForm})
+    else:
+        try:
+            form = ServicioForm(request.POST)
+            new_servicio = form.save()
+            return redirect("home")
+        except ValueError:
+            return render(
+                request,
+                "create_servicio.html",
+                {"form": ServicioForm, "Error": "Por favor ingrese datos validos"},
+            )

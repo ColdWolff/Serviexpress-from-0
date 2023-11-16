@@ -59,12 +59,26 @@ body{
     text-align: center;
     margin-right: 10px;
     margin-left: 10px;
-    background: #d8571e;
+    background: #FF8A41;
     color: #f7d4b1;
 }
     .btn:hover{
         background:#f7d4b1;
-        color: #e66f29;
+        color: #FF8A41;
+    }
+
+.btn-sign{
+    padding: 7px 20px 7px 20px;
+    text-align: center;
+    margin-right: 10px;
+    margin-left: 10px;
+    background: #d6631b;
+    border-radius: 5px;
+    color: #f7d4b1;
+}
+    .btn-sign:hover{
+        background:#f7d4b1;
+        color: #d6631b;
     }
 
 .cont_sec1 {
@@ -110,7 +124,7 @@ body{
 }
 
 .cont_footer {
-    background-color: rgb(237, 116, 41);
+    background-color:#FF8A41;
     padding: 10%;
     padding-bottom: 0;
     padding-top: 30px;
@@ -139,3 +153,5 @@ body{
     margin-left: 25%;
     width: 300px;
 }
+
+

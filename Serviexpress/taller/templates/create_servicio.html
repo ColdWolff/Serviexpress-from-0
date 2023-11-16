@@ -1,0 +1,20 @@
+{% extends 'hnf.html'%}
+
+{% block content %}
+
+<div>
+    <h1> Esto añade servicios (Se supone)</h1>
+    {{Error}}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <button class="btn">
+            Enviar
+        </button>
+    </form>
+</div>
+    
+{% endblock %}

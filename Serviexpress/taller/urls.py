@@ -8,6 +8,6 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('logout/', views.signout, name='logout'),
     
-    path('create/cita/', views.create_cita, name='create/cita'),
-    #path('hnf/', views.hnf, name='hnf')
+    path('servicios', views.servicios, name='servicios'),
+    path('create/servicio/', views.create_servicio, name='create/servicio'),
 ]

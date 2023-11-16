@@ -1,0 +1,31 @@
+.container{
+    width: 94%;
+}
+
+h3{
+    font-weight: 600;
+}
+
+.p{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+.listar{
+    border: 2px solid;
+    border-color: #e66f29;
+    border-radius: 10px; 
+    padding: 15px; 
+    margin-bottom: 10px;
+}
+
+.buttons {
+    text-align: center; 
+    padding: 0; 
+    list-style: none; 
+  }
+  
+  .buttons li {
+    display: inline-block;
+    margin: 0 10px; 
+  }
