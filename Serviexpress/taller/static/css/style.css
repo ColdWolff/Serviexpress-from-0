@@ -7,12 +7,6 @@ body{
     font-family: 'Cormorant Garamond', serif;
 }
 
-#navbarSupportedContent {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .navbar-nav {
     display: flex;
     justify-content: center;
@@ -23,7 +17,6 @@ body{
 .navbar-brand {
     display: flex;
     align-items: center;
-    flex-wrap: nowrap;
 }
 
 .navbar-brand img {

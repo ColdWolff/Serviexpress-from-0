@@ -1,0 +1,18 @@
+{% extends 'hnf.html'%}
+
+{% block content %}
+
+<div>
+    <h1> Esto añade citas (Se supone)</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <button class="btn">
+            Enviar
+        </button>
+    </form>
+</div>
+    
+{% endblock %}

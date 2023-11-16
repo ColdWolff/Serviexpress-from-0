@@ -3,11 +3,11 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-
+from .forms import CitaForm
+from .models import Cliente
 
 def home(request):
     return render(request, "home.html")
-
 
 def signup(request):
     if request.method == "GET":
@@ -31,7 +31,6 @@ def signup(request):
             {"Error": "Las contraseñas no son iguales"},
         )
 
-
 def signin(request):
     if request.method == "GET":
         print("Desplegando formulario")
@@ -52,11 +51,21 @@ def signin(request):
             login(request, user)
             return redirect("index")
 
+def signout(request):
+    logout(request)
+    return redirect("home")
 
 def index(request):
     return render(request, "index.html")
 
+def create_cita(request):
+    if request.method == 'GET':
+        return render(request, 'create_cita.html',
+                     {'form': CitaForm})
+    else:
+        form = CitaForm(request.POST)
+        new_cita = form.save(commit=False)
+        #new_cita.cliente = request.user
+        print(new_cita)
+        return redirect('home')
 
-def signout(request):
-    logout(request)
-    return redirect("home")
