@@ -1,0 +1,63 @@
+{% extends 'hnf.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/crud.css' %}" />
+</head>
+<div class="container">
+    <ul style="list-style: none;">
+        <li style="margin-bottom: 10px;text-align: center;"> {{ Mensaje }} </li>
+        {% if not Mensaje %}
+        <h1> Detalle Pedido </h1>
+        <li id="detalle">
+            <h3>{{ servicio.tipo_serv }}</h3>
+            <p>{{ servicio.desc_serv }}</p>
+            <p>Valor: ${{ servicio.costo_serv }}</p>
+        </li>
+        <h1> Actualizar Pedido </h1>
+        <form action="{% url 'update_pedido' servicio.id_serv %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <ul>
+                <li class="centered-button">
+                    <button class="btn" type="submit">
+                        Actualizar
+                    </button>
+                </li>                
+            </ul>
+        </form>
+
+        <form action="{% url 'delete_pedido' servicio.id_serv %}" method="POST">
+            {% csrf_token %}
+            <ul>
+                <li class="centered-button" style="margin-top: 2%;">
+                    <button class="btn" type="submit">
+                        Eliminar
+                    </button>
+                </li>                
+            </ul>
+        </form>
+
+        <ul>
+            <li class="centered-button" style="margin-top: 2%;">
+                <a class="btn" href="/pedidos">
+                    Volver
+                </a>
+            </li>
+        </ul>
+            
+        {% else %}
+        <ul>
+            <li class="centered-button">
+                <a class="btn" href="/servicios">
+                    Volver
+                </a>
+            </li>
+        </ul>
+        {% endif %}
+    </ul>
+
+</div>
+
+{% endblock %}

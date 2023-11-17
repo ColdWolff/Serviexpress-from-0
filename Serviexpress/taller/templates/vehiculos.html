@@ -1,0 +1,27 @@
+{% extends 'hnf.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+  <link rel="stylesheet" href="{% static 'css/crud.css' %}" />
+</head>
+<div class="container">
+  <h1> Servicios disponibles: </h1>
+  <ul style="list-style: none;">
+    {% for servicio in servicios %}
+    <li id="listar">
+      <a href="{% url 'update_servicio' servicio.id_serv %}">
+        <h3>{{ servicio.tipo_serv }}</h3>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  <ul class="buttons">
+    <li>
+      <a class="btn" href="/create/servicio"><b>Añadir Servicio</b></a>
+    </li>
+  </ul>
+
+</div>
+
+{% endblock %}
