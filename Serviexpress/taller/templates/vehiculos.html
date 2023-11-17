@@ -6,19 +6,19 @@
   <link rel="stylesheet" href="{% static 'css/crud.css' %}" />
 </head>
 <div class="container">
-  <h1> Servicios disponibles: </h1>
+  <h1> Vehiculos registrados: </h1>
   <ul style="list-style: none;">
-    {% for servicio in servicios %}
+    {% for vehiculo in vehiculos %}
     <li id="listar">
-      <a href="{% url 'update_servicio' servicio.id_serv %}">
-        <h3>{{ servicio.tipo_serv }}</h3>
+      <a href="{% url 'update_vehiculo' vehiculo.patente %}">
+        <h3>Patente N°:{{ vehiculo.patente }}, dueño: {{ vehiculo.cliente }}</h3>
       </a>
     </li>
     {% endfor %}
   </ul>
   <ul class="buttons">
     <li>
-      <a class="btn" href="/create/servicio"><b>Añadir Servicio</b></a>
+      <a class="btn" href="/create/vehiculo"><b>Añadir Vehiculo</b></a>
     </li>
   </ul>
 

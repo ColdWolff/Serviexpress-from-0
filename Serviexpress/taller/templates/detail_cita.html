@@ -1,0 +1,64 @@
+{% extends 'hnf.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/crud.css' %}" />
+</head>
+<div class="container">
+    <ul style="list-style: none;">
+        <li style="margin-bottom: 10px;text-align: center;"> {{ Mensaje }} </li>
+        {% if not Mensaje %}
+        <h1> Detalle Cita </h1>
+        <li id="detalle">
+            <h3>Cita N°: {{ cita.id_cita }}</h3>
+            <p>{{ cita.desc_cita}}</p>
+            <p>Cliente:  {{ cita.cliente }}</p>
+            <p>Empleado: {{ cita.empleado }}</p>
+        </li>
+        <h1> Actualizar Cita </h1>
+        <form action="{% url 'update_cita' cita.id_cita %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <ul>
+                <li class="centered-button">
+                    <button class="btn" type="submit">
+                        Actualizar
+                    </button>
+                </li>                
+            </ul>
+        </form>
+
+        <form action="{% url 'delete_cita' cita.id_cita %}" method="POST">
+            {% csrf_token %}
+            <ul>
+                <li class="centered-button" style="margin-top: 2%;">
+                    <button class="btn" type="submit">
+                        Eliminar
+                    </button>
+                </li>                
+            </ul>
+        </form>
+
+        <ul>
+            <li class="centered-button" style="margin-top: 2%;">
+                <a class="btn" href="/citas">
+                    Volver
+                </a>
+            </li>
+        </ul>
+            
+        {% else %}
+        <ul>
+            <li class="centered-button">
+                <a class="btn" href="/citas">
+                    Volver
+                </a>
+            </li>
+        </ul>
+        {% endif %}
+    </ul>
+
+</div>
+
+{% endblock %}

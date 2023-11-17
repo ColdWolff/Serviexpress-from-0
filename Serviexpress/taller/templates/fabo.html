@@ -6,19 +6,19 @@
   <link rel="stylesheet" href="{% static 'css/crud.css' %}" />
 </head>
 <div class="container">
-  <h1> Servicios disponibles: </h1>
+  <h1> Factura/Boleta existentes: </h1>
   <ul style="list-style: none;">
-    {% for servicio in servicios %}
+    {% for fabo in fabos %}
     <li id="listar">
-      <a href="{% url 'update_servicio' servicio.id_serv %}">
-        <h3>{{ servicio.tipo_serv }}</h3>
+      <a href="{% url 'update_fabo' fabo.num_fb %}">
+        <h3>Boleta N°: {{ fabo.num_fb }}, total a pagar: {{ fabo.totalpagar }}</h3>
       </a>
     </li>
     {% endfor %}
   </ul>
   <ul class="buttons">
     <li>
-      <a class="btn" href="/create/servicio"><b>Añadir Servicio</b></a>
+      <a class="btn" href="/create/fabo"><b>Añadir Factura/Boleta</b></a>
     </li>
   </ul>
 
