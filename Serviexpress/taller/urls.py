@@ -10,6 +10,5 @@ urlpatterns = [
     #Servicios
     path('servicios', views.servicios, name='servicios'),
     path('create/servicio/', views.create_servicio, name='create_servicio'),
-    path('servicio/<int:id_serv>/', views.read_servicio, name='read_servicio'),
-    path('update/servicio/', views.update_servicio, name='update_servicio'),
+    path('servicio/<int:id_serv>/', views.update_servicio, name='update_servicio'),
 ]

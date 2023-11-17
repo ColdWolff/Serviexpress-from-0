@@ -89,16 +89,19 @@ def create_servicio(request):
             )
 
 # Read (Servicio)
-def read_servicio(request, id_serv):
-    servicio = get_object_or_404(Servicio,pk=id_serv)
-    return render(request, 'read_servicio.html', {'servicio': servicio})
-
 
 # Updatea (Servicio)
-def update_servicio(request, servicio_id):
-    servicio = get_object_or_404(Servicio, pk=servicio_id)
-    form = ServicioForm(instance=servicio)
-    return render(request, 'update_servicio.html',{'servicio': servicio, 'form': form})
+def update_servicio(request, id_serv):
+    if request.method == "GET":
+        servicio = get_object_or_404(Servicio, pk=id_serv)
+        form = ServicioForm(instance=servicio)
+        return render(request, 'read_servicio.html',{'servicio': servicio, 'form': form})
+    else:
+        servicio = get_object_or_404(Servicio, pk=id_serv)
+        form = ServicioForm(request.POST, instance=servicio)
+        form.save()
+        return render(request, "read_servicio.html", {"Mensaje": "Servicio actualizado exitosamente"})
+
 
 # Lista con parametro 
 #def citas_filter(request):

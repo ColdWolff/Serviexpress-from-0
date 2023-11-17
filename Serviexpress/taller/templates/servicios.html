@@ -9,11 +9,9 @@
   <h1> Servicios disponibles: </h1>
   <ul style="list-style: none;">
     {% for servicio in servicios %}
-    <li class="listar">
-      <a href="{% url 'read_servicio' servicio.id_serv %}">
+    <li id="listar">
+      <a href="{% url 'update_servicio' servicio.id_serv %}">
         <h3>{{ servicio.tipo_serv }}</h3>
-        <p>{{ servicio.desc_serv }}</p>
-        <p>Valor: ${{ servicio.costo_serv }}</p>
       </a>
     </li>
     {% endfor %}
@@ -21,9 +19,6 @@
   <ul class="buttons">
     <li>
       <a class="btn" href="/create/servicio"><b>Añadir Servicio</b></a>
-    </li>
-    <li>
-      <a class="btn" href="/update/servicio"><b>Modificar Servicio</b></a>
     </li>
     <li>
       <a class="btn" href="#"><b>Eliminar Servicio</b></a>

@@ -31,7 +31,7 @@ form button {
     margin: 0 auto;
 }
 
-.listar {
+#listar {
     border: 2px solid;
     border-color: rgba(255, 138, 65);
     border-radius: 10px;
@@ -39,17 +39,24 @@ form button {
     margin-bottom: 10px;
 }
 
-.listar a {
+    #listar a {
+        color: black;
+        text-decoration: none;
+    }
+
+        #listar a:hover{
+            color: #FF8A41;
+        }
+
+#detalle{
+    border: 2px solid;
+    border-color: rgba(255, 138, 65);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #ffead5; 
     color: black;
-    text-decoration: none;
 }
-
-.listar a:hover,
-li:hover {
-    color: #f7d4b1;
-    background: #FF8A41;
-}
-
 .buttons {
     text-align: center;
     padding: 0;
@@ -61,4 +68,11 @@ li:hover {
     display: inline-block;
     margin: 0 10px;
     margin-bottom: 2%;
+}
+
+.centered-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
