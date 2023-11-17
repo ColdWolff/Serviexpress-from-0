@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404 
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -67,10 +67,6 @@ def signout(request):
     logout(request)
     return redirect("home")
 
-
-def index(request):
-    return render(request, "index.html")
-
 # Lista todo (Servicio)
 def servicios(request):
     servicios = Servicio.objects.all()
@@ -92,6 +88,17 @@ def create_servicio(request):
                 {"form": ServicioForm, "Mensaje": "Por favor ingrese datos válidos"},
             )
 
+# Read (Servicio)
+def read_servicio(request, id_serv):
+    servicio = get_object_or_404(Servicio,pk=id_serv)
+    return render(request, 'read_servicio.html', {'servicio': servicio})
+
+
+# Updatea (Servicio)
+def update_servicio(request, servicio_id):
+    servicio = get_object_or_404(Servicio, pk=servicio_id)
+    form = ServicioForm(instance=servicio)
+    return render(request, 'update_servicio.html',{'servicio': servicio, 'form': form})
 
 # Lista con parametro 
 #def citas_filter(request):

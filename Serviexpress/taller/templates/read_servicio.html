@@ -1,0 +1,32 @@
+{% extends 'hnf.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/crud.css' %}" />
+</head>
+<div class="container" style="text-align: center;">
+    <h1> Detalle Servicio </h1>
+
+    <ul style="list-style: none;">
+        <li style="margin-bottom: 10px;"> {{ Mensaje }} </li>
+        {% if not Mensaje %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn" type="submit">
+                Actualizar
+            </button>
+        </form>
+        {% else %}
+        <li>
+            <a class="btn" href="/servicios">
+                Volver
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+
+</div>
+
+{% endblock %}

@@ -4,7 +4,8 @@
     box-sizing: border-box;
 }
 body{
-    font-family: 'Cormorant Garamond', serif;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: #ffead5;
 }
 
 .navbar-nav {
