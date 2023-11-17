@@ -51,9 +51,9 @@ class Servicio(models.Model):
     
 class Cita(models.Model):
     id_cita = models.AutoField(primary_key=True)
-    fecha_aten = models.DateTimeField()
+    fecha_aten = models.DateTimeField(auto_now_add=True)
     desc_cita = models.TextField(blank=True)
-    cliente = models.ForeignKey(User, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -82,7 +82,7 @@ class Vehiculo(models.Model):
     
 class Pedido(models.Model):
     num_orden = models.AutoField(primary_key=True)
-    fecha_pedido = models.DateTimeField()
+    fecha_pedido = models.DateTimeField(auto_now_add=True)
     cant_prod = models.IntegerField()
     detalle_prod = models.TextField(max_length=400)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)

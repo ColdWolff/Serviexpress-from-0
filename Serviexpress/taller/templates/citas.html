@@ -6,19 +6,20 @@
   <link rel="stylesheet" href="{% static 'css/crud.css' %}" />
 </head>
 <div class="container">
-  <h1> Servicios disponibles: </h1>
+  <h1> Citas agendadas: </h1>
   <ul style="list-style: none;">
-    {% for servicio in servicios %}
+    {% for cita in citas %}
     <li id="listar">
-      <a href="{% url 'update_servicio' servicio.id_serv %}">
-        <h3>{{ servicio.tipo_serv }}</h3>
+      <a href="{% url 'update_cita' cita.id_cita %}">
+        <h3>Cita N°: {{ cita.id_cita }} , cliente: {{ cita.cliente }}</h3>
+        <p>{{ cita.desc_cita }}</p>
       </a>
     </li>
     {% endfor %}
   </ul>
   <ul class="buttons">
     <li>
-      <a class="btn" href="/create/servicio"><b>Añadir Servicio</b></a>
+      <a class="btn" href="/create/cita"><b>Añadir Cita</b></a>
     </li>
   </ul>
 

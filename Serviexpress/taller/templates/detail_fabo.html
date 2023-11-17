@@ -11,12 +11,12 @@
         {% if not Mensaje %}
         <h1> Detalle Factura/Boleta </h1>
         <li id="detalle">
-            <h3>{{ servicio.tipo_serv }}</h3>
-            <p>{{ servicio.desc_serv }}</p>
-            <p>Valor: ${{ servicio.costo_serv }}</p>
+            <h3>{{ fabo.cita }}</h3>
+            <p>{{ fabo.detalle_fb }}</p>
+            <p>Valor: ${{ fabo.totalpagar }}</p>
         </li>
         <h1> Actualizar Factura/Boleta </h1>
-        <form action="{% url 'update_fabo' servicio.id_serv %}" method="POST">
+        <form action="{% url 'update_fabo' fabo.num_fb %}" method="POST">
             {% csrf_token %}
             {{ form.as_p }}
             <ul>
@@ -28,7 +28,7 @@
             </ul>
         </form>
 
-        <form action="{% url 'delete_fabo' servicio.id_serv %}" method="POST">
+        <form action="{% url 'delete_fabo' fabo.num_fb %}" method="POST">
             {% csrf_token %}
             <ul>
                 <li class="centered-button" style="margin-top: 2%;">
@@ -50,7 +50,7 @@
         {% else %}
         <ul>
             <li class="centered-button">
-                <a class="btn" href="/servicios">
+                <a class="btn" href="/fabo">
                     Volver
                 </a>
             </li>

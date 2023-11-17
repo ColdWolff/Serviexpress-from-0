@@ -6,19 +6,19 @@
   <link rel="stylesheet" href="{% static 'css/crud.css' %}" />
 </head>
 <div class="container">
-  <h1> Servicios disponibles: </h1>
+  <h1> Producto disponibles: </h1>
   <ul style="list-style: none;">
-    {% for servicio in servicios %}
+    {% for producto in productos %}
     <li id="listar">
-      <a href="{% url 'update_servicio' servicio.id_serv %}">
-        <h3>{{ servicio.tipo_serv }}</h3>
+      <a href="{% url 'update_producto' producto.id_prod %}">
+        <h3>{{ producto.desc_prod }}</h3>
       </a>
     </li>
     {% endfor %}
   </ul>
   <ul class="buttons">
     <li>
-      <a class="btn" href="/create/servicio"><b>Añadir Servicio</b></a>
+      <a class="btn" href="/create/producto"><b>Añadir Producto</b></a>
     </li>
   </ul>
 

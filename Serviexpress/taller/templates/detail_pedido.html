@@ -11,12 +11,14 @@
         {% if not Mensaje %}
         <h1> Detalle Pedido </h1>
         <li id="detalle">
-            <h3>{{ servicio.tipo_serv }}</h3>
-            <p>{{ servicio.desc_serv }}</p>
-            <p>Valor: ${{ servicio.costo_serv }}</p>
+            <h3>Pedido N°: {{ pedido.num_orden }}</h3>
+            <p>Fecha: {{ pedido.fecha_pedido }}</p>
+            <p>Producto: {{ pedido.detalle_prod }}, cantidad: {{ pedido.cant_prod }}</p>
+            <p>Proveedor: {{ pedido.proveedor }}</p>
+            <p>Empleado: {{ pedido.empleado }}</p>
         </li>
         <h1> Actualizar Pedido </h1>
-        <form action="{% url 'update_pedido' servicio.id_serv %}" method="POST">
+        <form action="{% url 'update_pedido' pedido.num_orden %}" method="POST">
             {% csrf_token %}
             {{ form.as_p }}
             <ul>
@@ -28,7 +30,7 @@
             </ul>
         </form>
 
-        <form action="{% url 'delete_pedido' servicio.id_serv %}" method="POST">
+        <form action="{% url 'delete_pedido' pedido.num_orden %}" method="POST">
             {% csrf_token %}
             <ul>
                 <li class="centered-button" style="margin-top: 2%;">
@@ -50,7 +52,7 @@
         {% else %}
         <ul>
             <li class="centered-button">
-                <a class="btn" href="/servicios">
+                <a class="btn" href="/pedidos">
                     Volver
                 </a>
             </li>
