@@ -1,5 +1,6 @@
 .container{
     width: 94%;
+
 }
 
 h3{
@@ -54,9 +55,11 @@ form button{
     text-align: center; 
     padding: 0; 
     list-style: none; 
+    margin-bottom: 10px;
   }
   
   .buttons li {
     display: inline-block;
-    margin: 0 10px; 
+    margin: 0 10px;
+    margin-bottom: 2%; 
   }
