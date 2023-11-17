@@ -3,9 +3,10 @@
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
     background-image: url(../img/fondo.webp);
 }
+
 .sombra {
     position: absolute;
     left: 50%;
@@ -20,41 +21,45 @@
     color: white;
     margin: auto;
 }
-.sombra hr {
-    border-top: 1px solid white;
-}
-.sombra h1 {
-    font-size: 6vw;
-    margin-bottom: 10px;
-}
-.sombra p {
-    font-size: 4vw;
-    margin-bottom: 10px;
-}
+
+    .sombra hr {
+        border-top: 1px solid white;
+    }
+        .sombra h1 {
+            font-size: 6vw;
+            margin-bottom: 10px;
+        }
+            .sombra p {
+                font-size: 4vw;
+                margin-bottom: 10px;
+            }
+            
 .cont_banner_link {
     margin: 15;
     position: relative;
 }
-.cont_banner_link a {
-    position: relative;
-    display: inline-block;
-    color: white;
-    text-decoration: none;
-    border: 1px solid white;
-    padding: 1px;
-    margin-bottom: 5px;
-    width: 150px;
-}
-.cont_banner_link a:hover {
-    background-color: white;
-    color: black;
-}
+    .cont_banner_link a {
+        position: relative;
+        display: inline-block;
+        color: white;
+        text-decoration: none;
+        border: 1px solid white;
+        padding: 1px;
+        margin-bottom: 5px;
+        width: 150px;
+    }
+        .cont_banner_link a:hover {
+            background-color: white;
+            color: black;
+        }
+
 .banner_link {
     opacity: 0;
     animation: keyframes_aparecer_arriba 1s;
     -webkit-animation: keyframes_aparecer_arriba 1s;
     animation-fill-mode: forwards;
 }
+
 .delay_02 {
     animation-delay: 0.2s;
 }
@@ -64,7 +69,36 @@
 .delay_07 {
     animation-delay: 0.7s;
 }
-.navbar-light .navbar-brand {
-    width: 50%;
-    padding-left: 10px;
+
+.cont_sec1 {
+    padding: 5%;
+}
+
+    .cont_sec1_link {
+        padding: 5%;
+    }
+
+        .cont_sec1_link a {
+            width: 200px;
+        }
+
+            .cont_sec1 hr {
+                border-top: 1px solid rgba(1, 1, 1, 0.9);
+            }
+
+.color_car {
+    background:rgba(1, 1, 1, 0.7) ;
+    color: white;
+    text-align: center;
+    padding: 1%;
+    margin-left: 25%;
+    width: 300px;
+}
+
+.color_cont{
+    color: rgba(190, 4, 4);
+}
+
+.cont_img {
+    padding: 8%;
 }
