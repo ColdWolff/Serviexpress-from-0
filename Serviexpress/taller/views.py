@@ -35,11 +35,11 @@ def signup(request):
                 login(request, user)
                 return redirect("index")
             except:
-                return render(request, "signup.html", {"Error": "El usuario ya existe"})
+                return render(request, "signup.html", {"Mensaje": "El usuario ya existe"})
         return render(
             request,
             "signup.html",
-            {"Error": "Las contraseñas no son iguales"},
+            {"Mensaje": "Las contraseñas no son iguales"},
         )
 
 def signin(request):
@@ -56,7 +56,7 @@ def signin(request):
             return render(
                 request,
                 "signin.html",
-                {"Error": "Usuario o contraseña incorrectos"},
+                {"Mensaje": "Usuario o contraseña incorrectos"},
             )
         else:
             login(request, user)
@@ -71,14 +71,12 @@ def signout(request):
 def index(request):
     return render(request, "index.html")
 
-# L (Servicio)
+# Lista todo (Servicio)
 def servicios(request):
     servicios = Servicio.objects.all()
-    print(servicios)
     return render(request, "servicios.html", {"servicios": servicios})
 
-
-# C (Servicio)
+# Crea (Servicio)
 def create_servicio(request):
     if request.method == "GET":
         return render(request, "create_servicio.html", {"form": ServicioForm})
@@ -86,10 +84,16 @@ def create_servicio(request):
         try:
             form = ServicioForm(request.POST)
             new_servicio = form.save()
-            return redirect("home")
+            return render(request, "create_servicio.html", {"Mensaje": "Servicio guardado exitosamente"})
         except ValueError:
             return render(
                 request,
                 "create_servicio.html",
-                {"form": ServicioForm, "Error": "Por favor ingrese datos validos"},
+                {"form": ServicioForm, "Mensaje": "Por favor ingrese datos válidos"},
             )
+
+
+# Lista con parametro 
+#def citas_filter(request):
+    # cita = Citas.objects.filter(user = request.user)
+    #return render(request, "citas.html", {"citas": citas})

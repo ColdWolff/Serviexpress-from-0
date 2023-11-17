@@ -79,6 +79,7 @@ body{
     .btn-sign:hover{
         background:#f7d4b1;
         color: #d6631b;
+        text-decoration: none;
     }
 
 .cont_sec1 {
