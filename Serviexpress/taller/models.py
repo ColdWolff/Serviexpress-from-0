@@ -48,26 +48,26 @@ class Servicio(models.Model):
     
     def __str__(self):
         return self.tipo_serv
-     
-class FaBo(models.Model):
-    num_fb = models.AutoField(primary_key=True)
-    fecha_emision = models.DateTimeField(auto_now_add=True)
-    detalle_fb = models.TextField()
-    totalpagar = models.IntegerField()
-
-    def __str__(self):
-        return 'Boleta N°' + str(self.num_fb)
     
 class Cita(models.Model):
     id_cita = models.AutoField(primary_key=True)
     fecha_aten = models.DateTimeField()
     desc_cita = models.TextField(blank=True)
     cliente = models.ForeignKey(User, on_delete=models.CASCADE)
-    num_fb = models.ForeignKey(FaBo, on_delete=models.CASCADE)
     empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
     
     def __str__(self):
         return 'Cita N°' + str(self.id_cita) + '; Cliente:' + self.cliente.pnom_cli
+      
+class FaBo(models.Model):
+    num_fb = models.AutoField(primary_key=True)
+    fecha_emision = models.DateTimeField(auto_now_add=True)
+    detalle_fb = models.TextField()
+    totalpagar = models.IntegerField()
+    cita = models.ForeignKey(Cita, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'Boleta N°' + str(self.num_fb)
 
 class Vehiculo(models.Model):
     patente = models.CharField(primary_key=True, max_length=6)
