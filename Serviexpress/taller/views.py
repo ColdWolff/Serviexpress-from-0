@@ -98,11 +98,7 @@ def create_servicio(request):
                 {"form": ServicioForm, "Mensaje": "Por favor ingrese datos válidos"},
             )
 
-
-# Read (Servicio)
-
-
-# Updatea (Servicio)
+# Read y Update (Servicio)
 def update_servicio(request, id_serv):
     if request.method == "GET":
         servicio = get_object_or_404(Servicio, pk=id_serv)
@@ -130,6 +126,16 @@ def update_servicio(request, id_serv):
                     "Mensaje": "ERROR actualizando el servicio",
                 },
             )
+
+def delete_servicio(request, id_serv):
+    servicio = get_object_or_404(Servicio, pk=id_serv)
+    if request.method == 'POST':
+            servicio.delete()
+            return render(
+                request,
+                "read_servicio.html",
+                {"Mensaje": "Servicio eliminado exitosamente"})
+
 
 
 # Lista con parametro
