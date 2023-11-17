@@ -34,7 +34,7 @@ def signup(request):
                     password=request.POST["password1"],
                 )
                 login(request, user)
-                return redirect("index")
+                return redirect("home")
             except:
                 return render(
                     request, "signup.html", {"Mensaje": "El usuario ya existe"}
@@ -64,7 +64,7 @@ def signin(request):
             )
         else:
             login(request, user)
-            return redirect("index")
+            return redirect("home")
 
 
 def signout(request):
@@ -98,13 +98,13 @@ def create_servicio(request):
                 {"form": ServicioForm, "Mensaje": "Por favor ingrese datos válidos"},
             )
 
-# Read y Update (Servicio)
+# detail y Update (Servicio)
 def update_servicio(request, id_serv):
     if request.method == "GET":
         servicio = get_object_or_404(Servicio, pk=id_serv)
         form = ServicioForm(instance=servicio)
         return render(
-            request, "read_servicio.html", {"servicio": servicio, "form": form}
+            request, "detail_servicio.html", {"servicio": servicio, "form": form}
         )
     else:
         try:
@@ -113,13 +113,13 @@ def update_servicio(request, id_serv):
             form.save()
             return render(
                 request,
-                "read_servicio.html",
+                "detail_servicio.html",
                 {"Mensaje": "Servicio actualizado exitosamente"},
             )
         except ValueError:
             return render(
                 request,
-                "read_servicio.html",
+                "detail_servicio.html",
                 {
                     "servicio": servicio,
                     "form": form,
@@ -133,7 +133,7 @@ def delete_servicio(request, id_serv):
             servicio.delete()
             return render(
                 request,
-                "read_servicio.html",
+                "detail_servicio.html",
                 {"Mensaje": "Servicio eliminado exitosamente"})
 
 
