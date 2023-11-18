@@ -124,3 +124,15 @@ top: -5px;
 .sign-in a:hover{
     text-decoration: underline;
 }
+
+#role{
+    background: transparent;
+    backdrop-filter: blur(15px);
+    color: white;
+    margin-bottom: 5px;
+}
+
+#role option{
+    background: #222; 
+    color: white;
+}

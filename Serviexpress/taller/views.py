@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.db import IntegrityError
 from .forms import CitaForm, ServicioForm, FaBoForm, VehiculoForm, ProveedorForm, PedidoForm, ProductoForm
 from .models import (
     Cliente,
@@ -25,26 +26,40 @@ def signup(request):
     if request.method == "GET":
         print("Desplegando formulario")
         return render(request, "signup.html")
-    else:
-        if request.POST["password1"] == request.POST["password2"]:
-            # Registro de usuario
+    elif request.method == "POST":
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
+
+        if password1 != password2:
+            return render(request, "signup.html", {"Mensaje": "Las contraseñas no coinciden"})
+        else:
             try:
-                user = User.objects.create_user(
-                    username=request.POST["username"],
-                    password=request.POST["password1"],
-                )
+                if request.POST["role"] == "Cliente":
+                    cliente = Cliente.objects.create(
+                        rut_cli=request.POST["rut"],
+                        pnom_cli=request.POST["nombre"],
+                        appaterno_cli=request.POST["apellido"]
+                    )
+                    user = User.objects.create_user(
+                        username=request.POST["rut"],
+                        password=request.POST["password1"]
+                    )
+                elif request.POST["role"] == "Empleado":
+                    empleado = Empleado.objects.create(
+                        rut_emp=request.POST["rut"],
+                        pnom_emp=request.POST["nombre"],
+                        appaterno_emp=request.POST["apellido"]
+                    )
+                    user = User.objects.create_user(
+                        username=request.POST["rut"],
+                        password=request.POST["password1"]
+                    )
                 login(request, user)
                 return redirect("home")
-            except:
-                return render(
-                    request, "signup.html", {"Mensaje": "El usuario ya existe"}
-                )
-        return render(
-            request,
-            "signup.html",
-            {"Mensaje": "Las contraseñas no son iguales"},
-        )
+            except Cliente.DoesNotExist:
+                return render(request, "signup.html", {"Mensaje": "Error al crear cliente"})
 
+    return render(request, "signup.html", {"Mensaje": "Método HTTP no permitido"})
 
 def signin(request):
     if request.method == "GET":

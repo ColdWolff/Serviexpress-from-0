@@ -21,8 +21,16 @@
                 {% csrf_token %}
                 <h2> Registrarse </h2>
                 <div class="inputbox">
-                    <input style="text-indent: 6px;" type="text" required name="username">
-                    <label for=""> Usuario </label>
+                    <input style="text-indent: 6px;" type="text" required name="rut">
+                    <label for=""> Rut </label>
+                </div>
+                <div class="inputbox">
+                    <input style="text-indent: 6px;" type="text" required name="nombre">
+                    <label for=""> Nombre </label>
+                </div>
+                <div class="inputbox">
+                    <input style="text-indent: 6px;" type="text" required name="apellido">
+                    <label for=""> Apellido </label>
                 </div>
                 <div class="inputbox">
                     <input style="text-indent: 6px;" type="password" required name="password1">
@@ -30,14 +38,21 @@
                 </div>
                 <div class="inputbox">
                     <input style="text-indent: 6px;" type="password" required name="password2">
-                    <label> Contraseña </label>
+                    <label> Confirmar Contraseña </label>
+                </div>
+                <div class="inputbox">
+                    <label for="role">Rol: </label>
+                    <select name="role" id="role" required>
+                        <option value="Cliente">Cliente</option>
+                        <option value="Empleado">Empleado</option>
+                    </select>
                 </div>
                 <p style="color: white;">
                     {{Mensaje}}
                 </p>
                 <button class="btn" type="submit"> Registrarse </button>
                 <br>
-                <div class="sign-in">                    
+                <div class="sign-in">
                     <p> ¿Ya tienes una cuenta? <a href="/signin"> Acceder </a></p>
                 </div>
             </form>
