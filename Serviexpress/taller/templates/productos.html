@@ -11,7 +11,7 @@
     {% for producto in productos %}
     <li id="listar">
       <a href="{% url 'update_producto' producto.id_prod %}">
-        <h3>{{ producto.desc_prod }}</h3>
+        <h3>Producto N°{{producto.id_prod}}: {{ producto.desc_prod }}</h3>
       </a>
     </li>
     {% endfor %}

@@ -360,44 +360,51 @@ def create_cita(request):
             {"form": CitaForm, "cliente": cliente, "empleado": empleado},
         )
     else:
-        try:
-            form = CitaForm(request.POST)
-            new_cita = form.save()
-            return render(
-                request,
-                "create_cita.html",
-                {
-                    "Mensaje": "Cita guardada exitosamente",
-                    "cliente": cliente,
-                    "empleado": empleado,
-                    "rol": rol,
-                },
-            )
-        except ValueError:
-            return render(
-                request,
-                "create_cita.html",
-                {
-                    "form": CitaForm,
-                    "Mensaje": "Por favor ingrese datos válidos",
-                    "cliente": cliente,
-                    "empleado": empleado,
-                    "rol": rol,
-                },
-            )
+        form = CitaForm(request.POST)
+        if form.is_valid():
+            try:
+                # Crear una nueva cita con los datos del formulario
+                new_cita = form.save(commit=False)
+                new_cita.save()
+
+                # Obtener los servicios seleccionados del formulario
+                servicios_seleccionados = request.POST.getlist('servicios')
+                for servicio_id in servicios_seleccionados:
+                    servicio = Servicio.objects.get(pk=servicio_id)
+                    new_cita.servicios.add(servicio)
+
+                return render(
+                    request,
+                    "create_cita.html",
+                    {
+                        "Mensaje": "Cita guardada exitosamente",
+                        "cliente": cliente,
+                        "empleado": empleado,
+                        "rol": rol,
+                    },
+                )
+            except ValueError:
+                return render(
+                    request,
+                    "create_cita.html",
+                    {
+                        "form": CitaForm,
+                        "Mensaje": "Por favor ingrese datos válidos",
+                        "cliente": cliente,
+                        "empleado": empleado,
+                        "rol": rol,
+                    },
+                )
 
 
 # detail y Update (Cita)
 def update_cita(request, id_cita):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
+
+    cita = get_object_or_404(Cita, pk=id_cita)
     if request.method == "GET":
-        cita = get_object_or_404(Cita, pk=id_cita)
         form = CitaForm(instance=cita)
         return render(
             request,
@@ -405,33 +412,43 @@ def update_cita(request, id_cita):
             {"cita": cita, "form": form, "cliente": cliente, "empleado": empleado},
         )
     else:
-        try:
-            cita = get_object_or_404(Cita, pk=id_cita)
-            form = CitaForm(request.POST, instance=cita)
-            form.save()
-            return render(
-                request,
-                "detail_cita.html",
-                {
-                    "Mensaje": "Cita actualizada exitosamente",
-                    "cliente": cliente,
-                    "empleado": empleado,
-                    "rol": rol,
-                },
-            )
-        except ValueError:
-            return render(
-                request,
-                "detail_cita.html",
-                {
-                    "cita": cita,
-                    "form": form,
-                    "Mensaje": "ERROR actualizando la cita",
-                    "cliente": cliente,
-                    "empleado": empleado,
-                    "rol": rol,
-                },
-            )
+        form = CitaForm(request.POST, instance=cita)
+        if form.is_valid():
+            try:
+                # Guardar los cambios en la cita
+                updated_cita = form.save(commit=False)
+                updated_cita.save()
+
+                # Actualizar los servicios asociados
+                servicios_seleccionados = request.POST.getlist('servicios')
+                cita.servicios.clear()  # Eliminar los servicios asociados actualmente
+                for servicio_id in servicios_seleccionados:
+                    servicio = Servicio.objects.get(pk=servicio_id)
+                    cita.servicios.add(servicio)
+
+                return render(
+                    request,
+                    "detail_cita.html",
+                    {
+                        "Mensaje": "Cita actualizada exitosamente",
+                        "cliente": cliente,
+                        "empleado": empleado,
+                        "rol": rol,
+                    },
+                )
+            except ValueError:
+                return render(
+                    request,
+                    "detail_cita.html",
+                    {
+                        "cita": cita,
+                        "form": form,
+                        "Mensaje": "ERROR actualizando la cita",
+                        "cliente": cliente,
+                        "empleado": empleado,
+                        "rol": rol,
+                    },
+                )
 
 
 def delete_cita(request, id_cita):

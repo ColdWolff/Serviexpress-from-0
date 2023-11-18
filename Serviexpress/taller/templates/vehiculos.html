@@ -11,7 +11,8 @@
     {% for vehiculo in vehiculos %}
     <li id="listar">
       <a href="{% url 'update_vehiculo' vehiculo.patente %}">
-        <h3>Patente N°:{{ vehiculo.patente }}, dueño: {{ vehiculo.cliente }}</h3>
+        <h3>Patente: {{ vehiculo.patente }}</h3>
+        <h4>Dueño: {{ vehiculo.cliente }} </h4>
       </a>
     </li>
     {% endfor %}

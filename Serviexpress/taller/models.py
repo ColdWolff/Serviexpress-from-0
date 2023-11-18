@@ -41,7 +41,7 @@ class Proveedor(models.Model):
     telefono_prov = models.IntegerField()
 
     def __str__(self):
-        return "Proveedor: " + self.pnom_prov + " " + self.appaterno_prov
+        return self.pnom_prov + " " + self.appaterno_prov
 
 
 class Servicio(models.Model):
@@ -57,12 +57,12 @@ class Servicio(models.Model):
 class Cita(models.Model):
     id_cita = models.AutoField(primary_key=True)
     fecha_aten = models.DateTimeField(auto_now_add=True)
-    desc_cita = models.TextField(blank=True)
+    servicios = models.ManyToManyField(Servicio)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Cita N°" + str(self.id_cita) + "; Cliente:" + self.cliente.pnom_cli
+        return str(self.id_cita)
 
 
 class FaBo(models.Model):
@@ -73,7 +73,7 @@ class FaBo(models.Model):
     cita = models.ForeignKey(Cita, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Boleta N°" + str(self.num_fb)
+        return str(self.num_fb)
 
 
 class Vehiculo(models.Model):
@@ -87,23 +87,23 @@ class Vehiculo(models.Model):
     def __str__(self):
         return str(self.patente)
 
+class Producto(models.Model):
+    id_prod = models.AutoField(primary_key=True)
+    desc_prod = models.TextField(max_length=400)
+
+    def __str__(self):
+        return self.desc_prod
 
 class Pedido(models.Model):
     num_orden = models.AutoField(primary_key=True)
     fecha_pedido = models.DateTimeField(auto_now_add=True)
     cant_prod = models.IntegerField()
-    detalle_prod = models.TextField(max_length=400)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "N° Pedido: " + str(self.num_orden)
+        return str(self.num_orden)
 
 
-class Producto(models.Model):
-    id_prod = models.AutoField(primary_key=True)
-    desc_prod = models.TextField(max_length=400)
-    orden = models.ForeignKey(Pedido, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.desc_prod
