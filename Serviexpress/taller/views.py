@@ -40,6 +40,8 @@ def formatear_rut(rut):
     
     return rut_formateado
 
+def hnf(request):
+        return render(request, "hnf.html")
 
 #Vizualizaciones
 def home(request):

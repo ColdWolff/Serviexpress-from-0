@@ -30,27 +30,31 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/"><b class="color_nav">Inicio</b><span class="sr-only"></span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/create/cita"><b class="color_nav">Reservar cita</b></a>
-                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <b class="color_nav"> Trabajos realizados</b>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/citas"><b>Citas</b></a>
+                            <a class="dropdown-item" href="/fabo"><b>Factura/Boleta</b></a>
+                    <li>
                     <li class="nav-item">
                         <a class="nav-link" href="/servicios"><b class="color_nav">Servicios</b></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/fabo"><b class="color_nav">Factura/Boleta</b></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/vehiculos"><b class="color_nav">Vehiculos</b></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/proveedores"><b class="color_nav">Proveedores</b></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/pedidos"><b class="color_nav">Pedidos</b></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/productos"><b class="color_nav">Productos</b></a>
-                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <b class="color_nav"> Encargos</b>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/proveedores"><b>Proveedores</b></a>
+                            <a class="dropdown-item" href="/pedidos"><b>Pedidos Recientes</b></a>
+                            <a class="dropdown-item" href="/productos"><b>Productos</b></a>
+                        </div>
+                    <li>
                     <li>
                         {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
@@ -60,6 +64,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{% url 'update_user' user.username %}"><b>Perfil</b></a>
+                            <a class="dropdown-item" href="/vehiculos"><b>Vehiculos</b></a>
                             <a class="dropdown-item" href="/logout"><b> Cerrar Sesion</b></a>
                         </div>
                         {% else %}
@@ -76,7 +81,6 @@
         </nav>
     </header>
 
-    <br><br>
     <br><br>
     <br><br>
 
