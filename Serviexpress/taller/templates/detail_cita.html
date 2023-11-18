@@ -12,9 +12,17 @@
         <h1> Detalle Cita </h1>
         <li id="detalle">
             <h3>Cita N°: {{ cita.id_cita }}</h3>
-            <p>{{ cita.servicios}}</p>
-            <p>Cliente:  {{ cita.cliente }}</p>
-            <p>Empleado: {{ cita.empleado }}</p>
+            <ul style="list-style: none;">
+                Servicios solicitados:
+                {% for servicio in cita.servicios.all %}
+                     {{ servicio.tipo_serv }}
+                    {% if not forloop.last %}
+                        ,
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <p style="margin-bottom: 0%;">Cliente: {{ cita.cliente }}</p>
+            <p style="margin-bottom: 0%;">Empleado: {{ cita.empleado }}</p>
         </li>
         <h1> Actualizar Cita </h1>
         <form action="{% url 'update_cita' cita.id_cita %}" method="POST">
@@ -25,7 +33,7 @@
                     <button class="btn" type="submit">
                         Actualizar
                     </button>
-                </li>                
+                </li>
             </ul>
         </form>
 
@@ -36,7 +44,7 @@
                     <button class="btn" type="submit">
                         Eliminar
                     </button>
-                </li>                
+                </li>
             </ul>
         </form>
 
@@ -47,7 +55,7 @@
                 </a>
             </li>
         </ul>
-            
+
         {% else %}
         <ul>
             <li class="centered-button">
