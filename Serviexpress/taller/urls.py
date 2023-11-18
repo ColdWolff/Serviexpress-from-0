@@ -7,7 +7,7 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('signin/', views.signin, name='signin'),
     path('logout/', views.signout, name='logout'),
-    path('/<str:username>/', views.update_cli, name='update_cli'),
+    path('/<str:username>/', views.update_user, name='update_user'),
 
     #Cita
     path('citas', views.citas, name='citas'),

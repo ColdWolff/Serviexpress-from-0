@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 class Cliente(models.Model):
-    rut_cli = models.CharField(primary_key=True, max_length=10)
+    rut_cli = models.CharField(primary_key=True, max_length=12)
     pnom_cli = models.CharField(max_length=20)
     snom_cli = models.CharField(max_length=20, blank=True)
     appaterno_cli = models.CharField(max_length=20)
@@ -18,7 +18,7 @@ class Cliente(models.Model):
 
 
 class Empleado(models.Model):
-    rut_emp = models.CharField(primary_key=True, max_length=10)
+    rut_emp = models.CharField(primary_key=True, max_length=12)
     pnom_emp = models.CharField(max_length=20)
     snom_emp = models.CharField(max_length=20, blank=True)
     appaterno_emp = models.CharField(max_length=20)

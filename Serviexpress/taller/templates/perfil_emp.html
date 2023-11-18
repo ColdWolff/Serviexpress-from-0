@@ -18,7 +18,7 @@
         <li style="margin-bottom: 10px;text-align: center;"> {{ Mensaje }} </li>
         {% if not Mensaje %}
         <h1> Actualizar Perfil </h1>
-        <form action="{% url 'update_cli' user.username %}" method="POST">
+        <form action="{% url 'update_user' user.username %}" method="POST">
             {% csrf_token %}
             {{ form.as_p }}
             <ul>

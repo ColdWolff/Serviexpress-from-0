@@ -31,10 +31,10 @@
                         <a class="nav-link" href="/"><b class="color_nav">Inicio</b><span class="sr-only"></span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><b class="color_nav">Mecanicos</b></a>
+                        <a class="nav-link" href="/create/cita"><b class="color_nav">Reservar cita</b></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/citas"><b class="color_nav">Cita</b></a>
+                        <a class="nav-link" href="/servicios"><b class="color_nav">Servicios</b></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/fabo"><b class="color_nav">Factura/Boleta</b></a>
@@ -59,9 +59,7 @@
                             <b class="color_nav"> Hola: {{cliente.pnom_cli}} {{empleado.pnom_emp}}</b>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'update_cli' user.username %}"><b>Perfil</b></a>
-                            <a class="dropdown-item" href="/create/cita"><b> Reservar cita</b></a>
-                            <a class="dropdown-item" href="/servicios"><b> Servicios</b></a>
+                            <a class="dropdown-item" href="{% url 'update_user' user.username %}"><b>Perfil</b></a>
                             <a class="dropdown-item" href="/logout"><b> Cerrar Sesion</b></a>
                         </div>
                         {% else %}
