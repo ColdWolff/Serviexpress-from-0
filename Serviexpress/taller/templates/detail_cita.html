@@ -24,6 +24,7 @@
             <p style="margin-bottom: 0%;">Cliente: {{ cita.cliente }}</p>
             <p style="margin-bottom: 0%;">Empleado: {{ cita.empleado }}</p>
         </li>
+        {% if cliente %}
         <h1> Actualizar Cita </h1>
         <form action="{% url 'update_cita' cita.id_cita %}" method="POST">
             {% csrf_token %}
@@ -36,6 +37,7 @@
                 </li>
             </ul>
         </form>
+        {% endif %}
 
         <form action="{% url 'delete_cita' cita.id_cita %}" method="POST">
             {% csrf_token %}

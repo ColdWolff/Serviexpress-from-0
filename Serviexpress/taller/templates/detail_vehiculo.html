@@ -16,6 +16,7 @@
             <p>Marca: {{ vehiculo.marca }}, modelo: {{ vehiculo.modelo }}</p>
             <p>Año del vehiculo: {{ vehiculo.año }}, Kilometraje: {{ vehiculo.km }}</p>
         </li>
+        {% if cliente %}
         <h1> Actualizar Vehiculo </h1>
         <form action="{% url 'update_vehiculo' vehiculo.patente %}" method="POST">
             {% csrf_token %}
@@ -39,7 +40,7 @@
                 </li>                
             </ul>
         </form>
-
+        {% endif %}
         <ul>
             <li class="centered-button" style="margin-top: 2%;">
                 <a class="btn" href="/vehiculos">

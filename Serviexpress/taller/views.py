@@ -63,6 +63,7 @@ def home(request):
             {
                 "rol": rol,
                 "cliente": cliente,
+                "empleado": empleado
             },
         )
     else:
@@ -128,6 +129,26 @@ def signup(request):
 
     return render(request, "signup.html", {"Mensaje": "Método HTTP no permitido"})
 
+def signin(request):
+    if request.method == "GET":
+        print("Desplegando formulario")
+        return render(request, "signin.html")
+    else:
+        rut= formatear_rut(request.POST["username"])
+        user = authenticate(
+            request,
+            username=rut,
+            password=request.POST["password"],
+        )
+        if user is None:
+            return render(
+                request,
+                "signin.html",
+                {"Mensaje": "Usuario o contraseña incorrectos"},
+            )
+        else:
+            login(request, user)
+            return redirect("home")
 
 # Detail y Update (Cliente)
 def update_user(request, username):
@@ -159,38 +180,15 @@ def update_user(request, username):
         return render(
             request,
             "perfil_emp.html",
-            {"empleado": empleado, "rol": rol, "form": form, "Mensaje": Mensaje},
+            {"empleado": empleado, "form": form, "Mensaje": Mensaje},
         )
 
     else:
         return HttpResponse("Perfil no encontrado para este usuario")
 
-
-def signin(request):
-    if request.method == "GET":
-        print("Desplegando formulario")
-        return render(request, "signin.html")
-    else:
-        user = authenticate(
-            request,
-            username=request.POST["username"],
-            password=request.POST["password"],
-        )
-        if user is None:
-            return render(
-                request,
-                "signin.html",
-                {"Mensaje": "Usuario o contraseña incorrectos"},
-            )
-        else:
-            login(request, user)
-            return redirect("home")
-
-
 def signout(request):
     logout(request)
     return redirect("home")
-
 
 # Lista todo (Servicio)
 def servicios(request):
@@ -334,11 +332,12 @@ def citas(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
     rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
+    if empleado:
         rol = "Empleado"
-    citas = Cita.objects.all()
+        citas = Cita.objects.all()
+    elif cliente:
+        rol = "Cliente"
+        citas = Cita.objects.filter(cliente=cliente)
     return render(
         request,
         "citas.html",
@@ -610,7 +609,10 @@ def delete_fabo(request, num_fb):
 def vehiculos(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    vehiculos = Vehiculo.objects.all()
+    if empleado:
+        vehiculos = Vehiculo.objects.all()
+    elif cliente:
+        vehiculos = Vehiculo.objects.filter(cliente=cliente)
     return render(
         request,
         "vehiculos.html",
@@ -636,7 +638,9 @@ def create_vehiculo(request):
     else:
         try:
             form = VehiculoForm(request.POST)
-            new_vehiculo = form.save()
+            new_vehiculo = form.save(commit=False)
+            new_vehiculo.cliente = cliente
+            new_vehiculo.save()
             return render(
                 request,
                 "create_vehiculo.html",

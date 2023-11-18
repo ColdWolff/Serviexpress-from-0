@@ -15,6 +15,7 @@
             <p>{{ servicio.desc_serv }}</p>
             <p>Valor: ${{ servicio.costo_serv }}</p>
         </li>
+        {% if empleado %}
         <h1> Actualizar Servicio </h1>
         <form action="{% url 'update_servicio' servicio.id_serv %}" method="POST">
             {% csrf_token %}
@@ -38,7 +39,7 @@
                 </li>                
             </ul>
         </form>
-
+        {% endif %}
         <ul>
             <li class="centered-button" style="margin-top: 2%;">
                 <a class="btn" href="/servicios">

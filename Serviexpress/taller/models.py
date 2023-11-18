@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-
-
 class Cliente(models.Model):
     rut_cli = models.CharField(primary_key=True, max_length=12)
     pnom_cli = models.CharField(max_length=20)

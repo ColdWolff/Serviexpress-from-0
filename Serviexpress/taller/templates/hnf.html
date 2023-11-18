@@ -30,20 +30,22 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/"><b class="color_nav">Inicio</b><span class="sr-only"></span></a>
                     </li>
+                    {% if empleado %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <b class="color_nav"> Trabajos realizados</b>
+                            <b class="color_nav"> Trabajos </b>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/citas"><b>Citas</b></a>
                             <a class="dropdown-item" href="/fabo"><b>Factura/Boleta</b></a>
                     <li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="/servicios"><b class="color_nav">Servicios</b></a>
                     </li>
                     <li class="nav-item">
-
+                    {% if empleado %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,10 +53,16 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/proveedores"><b>Proveedores</b></a>
-                            <a class="dropdown-item" href="/pedidos"><b>Pedidos Recientes</b></a>
+                            <a class="dropdown-item" href="/pedidos"><b>Pedidos</b></a>
                             <a class="dropdown-item" href="/productos"><b>Productos</b></a>
                         </div>
                     <li>
+                    {% endif %}
+                    {% if cliente %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/create/cita"><b class="color_nav">Reservar Hora</b></a>
+                    </li>
+                    {% endif %}
                     <li>
                         {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
@@ -64,7 +72,13 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{% url 'update_user' user.username %}"><b>Perfil</b></a>
-                            <a class="dropdown-item" href="/vehiculos"><b>Vehiculos</b></a>
+                            {% if cliente %}
+                                <a class="dropdown-item" href="/citas"><b>Mis citas</b></a>
+                                <a class="dropdown-item" href="/vehiculos"><b>Mis Vehiculos</b></a>
+                            {% else %}
+                                <a class="dropdown-item" href="/vehiculos"><b>Vehiculos</b></a>
+                            {% endif %}
+
                             <a class="dropdown-item" href="/logout"><b> Cerrar Sesion</b></a>
                         </div>
                         {% else %}

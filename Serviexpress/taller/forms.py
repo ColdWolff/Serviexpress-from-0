@@ -24,7 +24,7 @@ class FaBoForm(ModelForm):
 class VehiculoForm(ModelForm):
     class Meta:
         model = Vehiculo
-        fields = ['patente','marca','modelo','año','km','cliente']
+        fields = ['patente','marca','modelo','año','km']
 
 class PedidoForm(ModelForm):
     class Meta:
