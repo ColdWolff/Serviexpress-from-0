@@ -56,11 +56,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <b class="color_nav"> Hola {{user.username}}
+                            <b class="color_nav"> Hola {{cliente.pnom_cli}}
                             </b>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#"><b>Perfil</b></a>
+                            <a class="dropdown-item" href="{% url 'update_cli' user.username %}"><b>Perfil</b></a>
                             <a class="dropdown-item" href="/create/cita"><b> Reservar cita</b></a>
                             <a class="dropdown-item" href="/servicios"><b> Servicios</b></a>
                             <a class="dropdown-item" href="/logout"><b> Cerrar Sesion</b></a>

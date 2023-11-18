@@ -1,0 +1,35 @@
+{% extends 'hnf.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/crud.css' %}" />
+</head>
+<div class="container">
+    <ul style="list-style: none;">
+        {% if cliente %}
+        <h1> Perfil </h1>
+        <li id="detalle">
+            <h3> {{ cliente.pnom_cli }} {{ cliente.snom_cli }} {{ cliente.appaterno_cli }} {{ cliente.apmaterno_cli }}</h3>
+            <p>Correo: {{ cliente.correo_cli }}</p>
+            <p>Telefono: {{ cliente.telefono_cli }}</p>
+        </li>
+        
+        <li style="margin-bottom: 10px;text-align: center;"> {{ Mensaje }} </li>
+        {% if not Mensaje %}
+        <h1> Actualizar Perfil </h1>
+        <form action="{% url 'update_cli' user.username %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <ul>
+                <li class="centered-button">
+                    <button class="btn" type="submit">
+                        Actualizar
+                    </button>
+                </li>                
+            </ul>
+        </form>
+        {% endif %} 
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

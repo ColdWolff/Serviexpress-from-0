@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import CitaForm, ServicioForm, FaBoForm, VehiculoForm, ProveedorForm, PedidoForm, ProductoForm
+from .forms import CitaForm, ServicioForm, FaBoForm, VehiculoForm, ProveedorForm, PedidoForm, ProductoForm, ClienteForm,EmpleadoForm
 from .models import (
     Cliente,
     Empleado,
@@ -17,10 +17,22 @@ from .models import (
     Producto,
 )
 
-
 def home(request):
-    return render(request, "home.html")
-
+    if request.user.is_authenticated:
+        rol = ""
+        try:
+            cliente = Cliente.objects.get(rut_cli=request.user.username)
+            rol = "Cliente"
+        except Cliente.DoesNotExist:
+            pass
+        try:
+            empleado = Empleado.objects.get(rut_emp=request.user.username)
+            rol = "Empleado"
+        except Empleado.DoesNotExist:
+            pass
+        return render(request, "home.html", {'rol': rol})
+    else:
+        return render(request, "home.html")
 
 def signup(request):
     if request.method == "GET":
@@ -34,6 +46,7 @@ def signup(request):
             return render(request, "signup.html", {"Mensaje": "Las contraseñas no coinciden"})
         else:
             try:
+                rol = request.POST["role"]
                 if request.POST["role"] == "Cliente":
                     cliente = Cliente.objects.create(
                         rut_cli=request.POST["rut"],
@@ -61,6 +74,36 @@ def signup(request):
 
     return render(request, "signup.html", {"Mensaje": "Método HTTP no permitido"})
 
+# Detail y Update (Cliente)
+
+def update_cli(request, username):
+    cliente = Cliente.objects.filter(rut_cli=username).first()
+    empleado = Empleado.objects.filter(rut_emp=username).first()
+    Mensaje = ""
+
+    if cliente:
+        form = ClienteForm(instance=cliente)
+        if request.method == "POST":
+            form = ClienteForm(request.POST, instance=cliente)
+            if form.is_valid():
+                form.save()
+                Mensaje = "Datos actualizados correctamente"
+
+        return render(request, "perfil_cli.html", {"cliente": cliente, "form": form, "Mensaje": Mensaje})
+    
+    elif empleado:
+        form = EmpleadoForm(instance=empleado)
+        if request.method == "POST":
+            form = EmpleadoForm(request.POST, instance=empleado)
+            if form.is_valid():
+                form.save()
+                Mensaje = "Datos actualizados correctamente"
+        
+        return render(request, "perfil_emp.html", {"empleado": empleado, "form": form, "Mensaje": Mensaje})
+    
+    else:
+        return HttpResponse("Perfil no encontrado para este usuario")
+            
 def signin(request):
     if request.method == "GET":
         print("Desplegando formulario")
@@ -86,6 +129,11 @@ def signout(request):
     logout(request)
     return redirect("home")
 
+def perfil_cli(request):
+        return render(request, "perfil_cli.html")
+
+def perfil_emp(request):
+        return render(request, "perfil_emp.html")
 
 # Lista todo (Servicio)
 def servicios(request):
@@ -540,9 +588,3 @@ def delete_producto(request, id_prod):
                 request,
                 "detail_producto.html",
                 {"Mensaje": "Producto eliminado exitosamente"})
-
-
-# Lista con parametro
-# def citas_filter(request):
-# cita = Citas.objects.filter(user = request.user)
-# return render(request, "citas.html", {"citas": citas})
