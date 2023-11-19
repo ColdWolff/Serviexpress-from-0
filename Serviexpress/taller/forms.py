@@ -4,7 +4,7 @@ from .models import Proveedor,FaBo,Cita,Vehiculo,Servicio,Pedido,Producto, Clien
 class CitaForm(ModelForm):
     class Meta:
         model = Cita
-        fields = ['servicios', 'cliente', 'empleado']
+        fields = ['servicios', 'empleado']
         
 class ServicioForm(ModelForm):
     class Meta:
@@ -19,7 +19,7 @@ class ProveedorForm(ModelForm):
 class FaBoForm(ModelForm):
     class Meta:
         model = FaBo
-        fields = ['detalle_fb', 'totalpagar', 'cita']
+        fields = ['cita']
 
 class VehiculoForm(ModelForm):
     class Meta:

@@ -11,7 +11,7 @@
     {% for fabo in fabos %}
     <li id="listar">
       <a href="{% url 'update_fabo' fabo.num_fb %}">
-        <h3>Boleta N°: {{ fabo.num_fb }}, total a pagar: {{ fabo.totalpagar }}</h3>
+        <h3>Boleta N°: {{ fabo.num_fb }}, Cliente: {{ fabo.cita.cliente }}</h3>
       </a>
     </li>
     {% endfor %}

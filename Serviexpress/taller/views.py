@@ -1,4 +1,5 @@
 import re
+from django.db.models import Sum
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -195,11 +196,8 @@ def servicios(request):
     servicios = Servicio.objects.all()
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
+    
     return render(
         request,
         "servicios.html",
@@ -211,11 +209,7 @@ def servicios(request):
 def create_servicio(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         return render(
             request,
@@ -254,11 +248,7 @@ def create_servicio(request):
 def update_servicio(request, id_serv):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         servicio = get_object_or_404(Servicio, pk=id_serv)
         form = ServicioForm(instance=servicio)
@@ -306,11 +296,7 @@ def update_servicio(request, id_serv):
 def delete_servicio(request, id_serv):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     servicio = get_object_or_404(Servicio, pk=id_serv)
     if request.method == "POST":
         servicio.delete()
@@ -331,12 +317,10 @@ def delete_servicio(request, id_serv):
 def citas(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
+    rol = "Cliente" if cliente else "Empleado"
     if empleado:
-        rol = "Empleado"
         citas = Cita.objects.all()
     elif cliente:
-        rol = "Cliente"
         citas = Cita.objects.filter(cliente=cliente)
     return render(
         request,
@@ -349,11 +333,7 @@ def citas(request):
 def create_cita(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         return render(
             request,
@@ -364,11 +344,10 @@ def create_cita(request):
         form = CitaForm(request.POST)
         if form.is_valid():
             try:
-                # Crear una nueva cita con los datos del formulario
                 new_cita = form.save(commit=False)
+                new_cita.cliente = cliente
                 new_cita.save()
 
-                # Obtener los servicios seleccionados del formulario
                 servicios_seleccionados = request.POST.getlist('servicios')
                 for servicio_id in servicios_seleccionados:
                     servicio = Servicio.objects.get(pk=servicio_id)
@@ -416,11 +395,10 @@ def update_cita(request, id_cita):
         form = CitaForm(request.POST, instance=cita)
         if form.is_valid():
             try:
-                # Guardar los cambios en la cita
+                
                 updated_cita = form.save(commit=False)
                 updated_cita.save()
-
-                # Actualizar los servicios asociados
+                
                 servicios_seleccionados = request.POST.getlist('servicios')
                 cita.servicios.clear()  # Eliminar los servicios asociados actualmente
                 for servicio_id in servicios_seleccionados:
@@ -455,11 +433,7 @@ def update_cita(request, id_cita):
 def delete_cita(request, id_cita):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     cita = get_object_or_404(Cita, pk=id_cita)
     if request.method == "POST":
         cita.delete()
@@ -480,26 +454,24 @@ def delete_cita(request, id_cita):
 def fabo(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
+    rol = "Cliente" if cliente else "Empleado"
+    fabos = FaBo.objects.none() 
+
     if cliente:
-        rol = "Cliente"
+        citas_cliente = Cita.objects.filter(cliente=cliente)
+        fabos = FaBo.objects.filter(cita__in=citas_cliente)
     else:
-        rol = "Empleado"
-    fabos = FaBo.objects.all()
+        fabos = FaBo.objects.all()
+
     return render(
         request, "fabo.html", {"fabos": fabos, "cliente": cliente, "empleado": empleado}
     )
 
 
-# Crea (Factura/Boleta)
 def create_fabo(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         return render(
             request,
@@ -507,42 +479,43 @@ def create_fabo(request):
             {"form": FaBoForm, "cliente": cliente, "empleado": empleado},
         )
     else:
-        try:
-            form = FaBoForm(request.POST)
-            new_fabo = form.save()
-            return render(
-                request,
-                "create_fabo.html",
-                {
-                    "Mensaje": "Factura/Boleta guardada exitosamente",
-                    "cliente": cliente,
-                    "empleado": empleado,
-                    "rol": rol,
-                },
-            )
-        except ValueError:
-            return render(
-                request,
-                "create_fabo.html",
-                {
-                    "form": FaBoForm,
-                    "Mensaje": "Por favor ingrese datos válidos",
-                    "cliente": cliente,
-                    "empleado": empleado,
-                    "rol": rol,
-                },
-            )
+        form = FaBoForm(request.POST)
+        if form.is_valid():
+            try:
+                new_fabo = form.save(commit=False)
+                cita = new_fabo.cita
+                total_pagar = cita.servicios.aggregate(total=Sum('costo_serv'))['total']
+                new_fabo.totalpagar = total_pagar
+                new_fabo.save()
 
+                return render(
+                    request,
+                    "create_fabo.html",
+                    {
+                        "Mensaje": "Factura/Boleta guardada exitosamente",
+                        "cliente": cliente,
+                        "empleado": empleado,
+                        "rol": rol,
+                    },
+                )
+            except ValueError:
+                return render(
+                    request,
+                    "create_fabo.html",
+                    {
+                        "form": FaBoForm,
+                        "Mensaje": "Por favor ingrese datos válidos",
+                        "cliente": cliente,
+                        "empleado": empleado,
+                        "rol": rol,
+                    },
+                )
 
 # detail y Update (Factura/Boleta)
 def update_fabo(request, num_fb):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         fabo = get_object_or_404(FaBo, pk=num_fb)
         form = FaBoForm(instance=fabo)
@@ -584,11 +557,7 @@ def update_fabo(request, num_fb):
 def delete_fabo(request, num_fb):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     fabo = get_object_or_404(FaBo, pk=num_fb)
     if request.method == "POST":
         fabo.delete()
@@ -602,7 +571,6 @@ def delete_fabo(request, num_fb):
                 "rol": rol,
             },
         )
-
 
 # Vehículo
 # Lista todo (Vehiculo)
@@ -624,11 +592,7 @@ def vehiculos(request):
 def create_vehiculo(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         return render(
             request,
@@ -669,11 +633,7 @@ def create_vehiculo(request):
 def update_vehiculo(request, patente):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         vehiculo = get_object_or_404(Vehiculo, pk=patente)
         form = VehiculoForm(instance=vehiculo)
@@ -721,11 +681,7 @@ def update_vehiculo(request, patente):
 def delete_vehiculo(request, patente):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     vehiculo = get_object_or_404(Vehiculo, pk=patente)
     if request.method == "POST":
         vehiculo.delete()
@@ -746,11 +702,7 @@ def delete_vehiculo(request, patente):
 def proveedores(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     proveedores = Proveedor.objects.all()
     return render(
         request,
@@ -763,11 +715,7 @@ def proveedores(request):
 def create_proveedor(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         return render(
             request,
@@ -806,11 +754,7 @@ def create_proveedor(request):
 def update_proveedor(request, id_prov):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         proveedor = get_object_or_404(Proveedor, pk=id_prov)
         form = ProveedorForm(instance=proveedor)
@@ -858,11 +802,7 @@ def update_proveedor(request, id_prov):
 def delete_proveedor(request, id_prov):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     proveedor = get_object_or_404(Proveedor, pk=id_prov)
     if request.method == "POST":
         proveedor.delete()
@@ -877,17 +817,12 @@ def delete_proveedor(request, id_prov):
             },
         )
 
-
 # Pedido
 # Lista todo (Pedido)
 def pedidos(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     pedidos = Pedido.objects.all()
     return render(
         request,
@@ -900,11 +835,7 @@ def pedidos(request):
 def create_pedido(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         return render(
             request,
@@ -943,11 +874,7 @@ def create_pedido(request):
 def update_pedido(request, num_orden):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         pedido = get_object_or_404(Pedido, pk=num_orden)
         form = PedidoForm(instance=pedido)
@@ -989,11 +916,7 @@ def update_pedido(request, num_orden):
 def delete_pedido(request, num_orden):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     pedido = get_object_or_404(Pedido, pk=num_orden)
     if request.method == "POST":
         pedido.delete()
@@ -1014,11 +937,7 @@ def delete_pedido(request, num_orden):
 def productos(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     productos = Producto.objects.all()
     return render(
         request,
@@ -1031,11 +950,7 @@ def productos(request):
 def create_producto(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         return render(
             request,
@@ -1074,11 +989,7 @@ def create_producto(request):
 def update_producto(request, id_prod):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     if request.method == "GET":
         producto = get_object_or_404(Producto, pk=id_prod)
         form = ProductoForm(instance=producto)
@@ -1126,11 +1037,7 @@ def update_producto(request, id_prod):
 def delete_producto(request, id_prod):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
-    rol = ""
-    if cliente:
-        rol = "Cliente"
-    else:
-        rol = "Empleado"
+    rol = "Cliente" if cliente else "Empleado"
     producto = get_object_or_404(Producto, pk=id_prod)
     if request.method == "POST":
         producto.delete()
