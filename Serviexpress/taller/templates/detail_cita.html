@@ -13,6 +13,8 @@
         <li id="detalle">
             <h3>Cita N°: {{ cita.id_cita }}</h3>
             <p>{{ cita.desc_cita}}</p>
+            <p>Fecha: {{ cita.fecha_aten}}</p>
+            <p>{{ cita.get_horario_display }}</p>
             <p>Cliente:  {{ cita.cliente }}</p>
             <p>Empleado: {{ cita.empleado }}</p>
         </li>
