@@ -1,10 +1,32 @@
 from django.forms import ModelForm
+from django import forms
+from django.core.exceptions import ValidationError
 from .models import Proveedor,FaBo,Cita,Vehiculo,Servicio,Pedido,Producto, Cliente, Empleado
 
 class CitaForm(ModelForm):
     class Meta:
         model = Cita
-        fields = ['servicios', 'empleado']
+        fields = ['fecha_aten','horario', 'servicios', 'cliente', 'empleado']
+        
+    fecha_aten = forms.DateField(
+        widget=forms.widgets.DateInput(attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d'],  
+    )
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        fecha_aten = cleaned_data.get('fecha_aten')
+        horario = cleaned_data.get('horario')
+
+        if fecha_aten and horario:
+            # Verificar si ya hay una cita para la misma fecha y hora
+            citas_existente = Cita.objects.filter(fecha_aten=fecha_aten, horario=horario).exclude(id_cita=self.instance.id_cita if self.instance else None)
+
+            if citas_existente.exists():
+                raise ValidationError('Ya existe una cita agendada para la misma fecha y hora.')
+
+        return cleaned_data
+
         
 class ServicioForm(ModelForm):
     class Meta:

@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Cliente(models.Model):
@@ -52,16 +54,39 @@ class Servicio(models.Model):
         return self.tipo_serv
 
 
+def validar_dia(value):
+    today=date.today()
+    weekday= date.fromisoformat(f'{value}').weekday()
+    
+    if value < today:
+        raise ValidationError('No puede seleccionar una fecha anterior.')
+    if weekday in {5, 6}:
+        raise ValidationError('No puede seleccionar fines de semana.')
+    
 class Cita(models.Model):
     id_cita = models.AutoField(primary_key=True)
-    fecha_aten = models.DateTimeField(auto_now_add=True)
+    fecha_aten = models.DateField(help_text="(Día-Mes-Año)",validators=[validar_dia])
+    HORARIOS = (
+        ("1","08:00 am"),
+        ("2","09:00 am"),
+        ("3","10:00 am"),
+        ("4","11:00 am"),
+        ("5","12:00 am"),
+        ("6","01:00 pm"),
+        ("7","02:00 pm"),
+        ("8","03:00 pm"),
+        ("9","04:00 pm"),
+    )
+    horario= models.CharField(max_length=10, choices=HORARIOS, default= "1")
     servicios = models.ManyToManyField(Servicio)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
-
+    
+    class Meta:
+        unique_together = ('horario','fecha_aten')
+    
     def __str__(self):
-        return str(self.id_cita)
-
+        return 'Cita N°' + str(self.id_cita) + '; Cliente:' + self.cliente.pnom_cli
 
 class FaBo(models.Model):
     num_fb = models.AutoField(primary_key=True)
