@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.password_validation import validate_password
@@ -152,6 +153,7 @@ def signin(request):
             return redirect("home")
 
 # Detail y Update (Cliente)
+@login_required
 def update_user(request, username):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -206,6 +208,7 @@ def servicios(request):
 
 
 # Crea (Servicio)
+@login_required
 def create_servicio(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -245,6 +248,7 @@ def create_servicio(request):
 
 
 # detail y Update (Servicio)
+@login_required
 def update_servicio(request, id_serv):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -292,7 +296,7 @@ def update_servicio(request, id_serv):
                 },
             )
 
-
+@login_required
 def delete_servicio(request, id_serv):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -314,6 +318,7 @@ def delete_servicio(request, id_serv):
 
 # Citas
 # Lista todo (Cita)
+@login_required
 def citas(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -330,6 +335,7 @@ def citas(request):
 
 
 # Crea (Cita)
+@login_required
 def create_cita(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -378,6 +384,7 @@ def create_cita(request):
 
 
 # detail y Update (Cita)
+@login_required
 def update_cita(request, id_cita):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -429,7 +436,7 @@ def update_cita(request, id_cita):
                     },
                 )
 
-
+@login_required
 def delete_cita(request, id_cita):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -451,6 +458,7 @@ def delete_cita(request, id_cita):
 
 # Factura/Boleta
 # Lista todo (Factura/Boleta)
+@login_required
 def fabo(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -467,7 +475,7 @@ def fabo(request):
         request, "fabo.html", {"fabos": fabos, "cliente": cliente, "empleado": empleado}
     )
 
-
+@login_required
 def create_fabo(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -512,6 +520,7 @@ def create_fabo(request):
                 )
 
 # detail y Update (Factura/Boleta)
+@login_required
 def update_fabo(request, num_fb):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -553,7 +562,7 @@ def update_fabo(request, num_fb):
                 },
             )
 
-
+@login_required
 def delete_fabo(request, num_fb):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -574,6 +583,7 @@ def delete_fabo(request, num_fb):
 
 # Vehículo
 # Lista todo (Vehiculo)
+@login_required
 def vehiculos(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -589,6 +599,7 @@ def vehiculos(request):
 
 
 # Crea (Vehiculo)
+@login_required
 def create_vehiculo(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -630,6 +641,7 @@ def create_vehiculo(request):
 
 
 # detail y Update (Vehiculo)
+@login_required
 def update_vehiculo(request, patente):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -677,7 +689,7 @@ def update_vehiculo(request, patente):
                 },
             )
 
-
+@login_required
 def delete_vehiculo(request, patente):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -699,6 +711,7 @@ def delete_vehiculo(request, patente):
 
 # Proveedor
 # Lista todo (Proveedor)
+@login_required
 def proveedores(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -712,6 +725,7 @@ def proveedores(request):
 
 
 # Crea (Proveedor)
+@login_required
 def create_proveedor(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -751,6 +765,7 @@ def create_proveedor(request):
 
 
 # detail y Update (Proveedor)
+@login_required
 def update_proveedor(request, id_prov):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -798,7 +813,7 @@ def update_proveedor(request, id_prov):
                 },
             )
 
-
+@login_required
 def delete_proveedor(request, id_prov):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -819,6 +834,7 @@ def delete_proveedor(request, id_prov):
 
 # Pedido
 # Lista todo (Pedido)
+@login_required
 def pedidos(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -832,6 +848,7 @@ def pedidos(request):
 
 
 # Crea (Pedido)
+@login_required
 def create_pedido(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -871,6 +888,7 @@ def create_pedido(request):
 
 
 # detail y Update (Pedido)
+@login_required
 def update_pedido(request, num_orden):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -912,7 +930,7 @@ def update_pedido(request, num_orden):
                 },
             )
 
-
+@login_required
 def delete_pedido(request, num_orden):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -934,6 +952,7 @@ def delete_pedido(request, num_orden):
 
 # Producto
 # Lista todo (Producto)
+@login_required
 def productos(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -947,6 +966,7 @@ def productos(request):
 
 
 # Crea (Producto)
+@login_required
 def create_producto(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -986,6 +1006,7 @@ def create_producto(request):
 
 
 # detail y Update (Producto)
+@login_required
 def update_producto(request, id_prod):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
@@ -1033,7 +1054,7 @@ def update_producto(request, id_prod):
                 },
             )
 
-
+@login_required
 def delete_producto(request, id_prod):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
