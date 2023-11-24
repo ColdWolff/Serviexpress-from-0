@@ -41,7 +41,14 @@ class ProveedorForm(ModelForm):
 class FaBoForm(ModelForm):
     class Meta:
         model = FaBo
-        fields = ['detalle_fb','cita','medio']
+        fields = ['detalle_fb', 'cita', 'medio']
+
+    def __init__(self, *args, **kwargs):
+        servicios = kwargs.pop('servicios', None)
+        super().__init__(*args, **kwargs)
+
+        if servicios:
+            self.fields['detalle_fb'].queryset = servicios
 
 class VehiculoForm(ModelForm):
     class Meta:

@@ -12,7 +12,15 @@
         <h1> Detalle Factura/Boleta </h1>
         <li id="detalle">
             <h3>Cita N°: {{ fabo.cita }}</h3>
-            <p>{{ fabo.detalle_fb }}</p>
+            <ul style="list-style: none;">
+                Servicios solicitados:
+                {% for servicio in fabo.cita.servicios.all %}
+                     {{ servicio.tipo_serv }}
+                    {% if not forloop.last %}
+                        ,
+                    {% endif %}
+                {% endfor %}
+            </ul>
             <p>Medio de pago: {{ fabo.medio }}</p>
             <p>Total a pagar: ${{ fabo.totalpagar }}</p>
         </li>

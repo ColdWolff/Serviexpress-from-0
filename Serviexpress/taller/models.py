@@ -91,14 +91,14 @@ class Cita(models.Model):
 class FaBo(models.Model):
     num_fb = models.AutoField(primary_key=True)
     fecha_emision = models.DateTimeField(auto_now_add=True)
-    detalle_fb = models.ManyToManyField(Servicio)
+    detalle_fb = models.ManyToManyField(Servicio, blank=True, null=True)
     MEDIOS = (
-        ("1","Efectivo"),
-        ("2","Tarjeta de débito"),
-        ("3","Tarjeta de credito"),
-        ("4","Fiado"),
+        ("1", "Efectivo"),
+        ("2", "Tarjeta de débito"),
+        ("3", "Tarjeta de crédito"),
+        ("4", "Fiado"),
     )
-    medio= models.CharField(max_length=30, choices=MEDIOS, default= "1")
+    medio = models.CharField(max_length=30, choices=MEDIOS, default="1")
     totalpagar = models.IntegerField()
     cita = models.ForeignKey(Cita, on_delete=models.CASCADE)
 

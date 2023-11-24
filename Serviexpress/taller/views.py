@@ -492,11 +492,16 @@ def create_fabo(request):
     cliente = Cliente.objects.filter(rut_cli=request.user.username).first()
     empleado = Empleado.objects.filter(rut_emp=request.user.username).first()
     rol = "Cliente" if cliente else "Empleado"
+
     if request.method == "GET":
+        cita_id = request.GET.get('cita_id')
+        cita = Cita.objects.get(pk=cita_id) if cita_id else None
+        servicios = cita.servicios.all() if cita else None
+
         return render(
             request,
             "create_fabo.html",
-            {"form": FaBoForm, "cliente": cliente, "empleado": empleado},
+            {"form": FaBoForm(servicios=servicios), "cliente": cliente, "empleado": empleado},
         )
     else:
         form = FaBoForm(request.POST)
@@ -504,10 +509,12 @@ def create_fabo(request):
             try:
                 new_fabo = form.save(commit=False)
                 cita = new_fabo.cita
-                new_fabo.detalle_fb.set(cita.servicios)
                 total_pagar = cita.servicios.aggregate(total=Sum('costo_serv'))['total']
                 new_fabo.totalpagar = total_pagar
                 new_fabo.save()
+
+                # Guardar la relación muchos a muchos después de que num_fb tenga un valor
+                new_fabo.detalle_fb.set(cita.servicios.all())
 
                 return render(
                     request,
@@ -519,12 +526,13 @@ def create_fabo(request):
                         "rol": rol,
                     },
                 )
-            except ValueError:
+            except ValueError as e:
+                print(f"Error al guardar Factura/Boleta: {e}")
                 return render(
                     request,
                     "create_fabo.html",
                     {
-                        "form": FaBoForm,
+                        "form": FaBoForm(),
                         "Mensaje": "Por favor ingrese datos válidos",
                         "cliente": cliente,
                         "empleado": empleado,
