@@ -381,6 +381,18 @@ def create_cita(request):
                         "rol": rol,
                     },
                 )
+        else:
+            return render (
+                request,
+                "create_cita.html",
+                {
+                    "form": CitaForm,
+                    "Mensaje": "Seleccione un día hábil o una hora que no haya sido agendada",
+                    "cliente": cliente,
+                    "empleado": empleado,
+                    "rol": rol,
+                },
+            )
 
 
 # detail y Update (Cita)
@@ -492,6 +504,7 @@ def create_fabo(request):
             try:
                 new_fabo = form.save(commit=False)
                 cita = new_fabo.cita
+                new_fabo.detalle_fb.set(cita.servicios)
                 total_pagar = cita.servicios.aggregate(total=Sum('costo_serv'))['total']
                 new_fabo.totalpagar = total_pagar
                 new_fabo.save()

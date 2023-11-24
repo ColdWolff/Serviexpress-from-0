@@ -41,7 +41,7 @@ class ProveedorForm(ModelForm):
 class FaBoForm(ModelForm):
     class Meta:
         model = FaBo
-        fields = ['cita']
+        fields = ['detalle_fb','cita','medio']
 
 class VehiculoForm(ModelForm):
     class Meta:

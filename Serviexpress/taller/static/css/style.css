@@ -44,6 +44,10 @@ body{
     font-weight: 500;
 }
 
+.dropdown-item {
+    background-color: #f7d4b1;
+}
+
 .dropdown a:hover{
     background-color: rgba(255, 138, 65);
 }
