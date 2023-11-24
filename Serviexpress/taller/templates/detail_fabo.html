@@ -21,8 +21,8 @@
                     {% endif %}
                 {% endfor %}
             </ul>
-            <p>Medio de pago: {{ fabo.medio }}</p>
-            <p>Total a pagar: ${{ fabo.totalpagar }}</p>
+            <p style="margin-bottom: 0px">Medio de pago: {{ fabo.get_medio_display }}</p>
+            <p style="margin-bottom: 5px">Total a pagar: ${{ fabo.totalpagar }}</p>
         </li>
         {% if empleado %}
         <h1> Actualizar Factura/Boleta </h1>
