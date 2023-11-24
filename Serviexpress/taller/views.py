@@ -495,13 +495,22 @@ def create_fabo(request):
 
     if request.method == "GET":
         cita_id = request.GET.get('cita_id')
-        cita = Cita.objects.get(pk=cita_id) if cita_id else None
-        servicios = cita.servicios.all() if cita else None
+        cita = Cita.objects.filter(pk=cita_id).prefetch_related('servicios').first() if cita_id else None
+
+        if cita:
+            servicios = cita.servicios.all()
+        else:
+            servicios = None
+
+        if servicios is not None:
+            form = FaBoForm(servicios=servicios)
+        else:
+            form = FaBoForm()
 
         return render(
             request,
             "create_fabo.html",
-            {"form": FaBoForm(servicios=servicios), "cliente": cliente, "empleado": empleado},
+            {"form": form, "cliente": cliente, "empleado": empleado},
         )
     else:
         form = FaBoForm(request.POST)
@@ -539,7 +548,7 @@ def create_fabo(request):
                         "rol": rol,
                     },
                 )
-
+                    
 # detail y Update (Factura/Boleta)
 @login_required
 def update_fabo(request, num_fb):
